@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -11,12 +15,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class Compilador extends JFrame {
 
+	File arquivo = null;
+	
 	private JPanel contentPane;
+	private JTextArea taEditor;
 
 	/**
 	 * Launch the application.
@@ -27,6 +37,7 @@ public class Compilador extends JFrame {
 				try {
 					Compilador frame = new Compilador();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -127,7 +138,7 @@ public class Compilador extends JFrame {
         btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //btnSalvarActionPerformed(evt);
+            	actionSalvar();
             }
         });
 
@@ -191,12 +202,53 @@ public class Compilador extends JFrame {
         btnEquipe.setMinimumSize(new java.awt.Dimension(112, 70));
         btnEquipe.setPreferredSize(new java.awt.Dimension(112, 70));
         btnEquipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        
+        taEditor = new JTextArea();
+        taEditor.setBounds(15, 85, 859, 310);
+        contentPane.add(taEditor);
         btnEquipe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //btnEquipeActionPerformed(evt);
             }
-        });
-		
+        }); 
 	}
-
+	
+	private void actionSalvar() {
+		if (arquivo != null && arquivo.exists()){
+			salvarConteudoArquivo();
+		} else {
+			salvarNovoArquivo();
+		}
+	}
+	
+	private void salvarConteudoArquivo() {
+		try {
+    		PrintWriter pw = new PrintWriter(arquivo);
+    		
+    		String conteudo = taEditor.getText();
+    		
+    		pw.write("Teste");
+    		pw.flush();
+    		
+    		pw.close();
+    	} catch (IOException e) {
+    		System.out.println(e.getMessage());
+    	}
+    }
+	
+	private void salvarNovoArquivo() {
+		JFileChooser jfc = new JFileChooser();
+		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		jfc.setFileFilter(new FileNameExtensionFilter("Arquivo .txt", "txt"));
+		
+		if (jfc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			arquivo = jfc.getSelectedFile();
+			
+			if(!arquivo.getAbsolutePath().contains(".txt")) {
+				arquivo = new File(arquivo.getPath() + ".txt");
+			}
+			
+			salvarConteudoArquivo();
+		}
+	}
 }
