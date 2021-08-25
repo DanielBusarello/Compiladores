@@ -27,6 +27,7 @@ public class NumeredBorder extends AbstractBorder {
 		this.myColor = new Color(164, 164, 164);
 	}
 	
+	@SuppressWarnings("unused")
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 		if (this.viewport == null) {
 			searchViewport(c);

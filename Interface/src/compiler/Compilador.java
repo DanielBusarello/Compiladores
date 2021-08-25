@@ -2,12 +2,12 @@ package compiler;
 
 
 import java.awt.EventQueue;
-
+import java.io.BufferedReader;
 import java.io.File;
-
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.io.InputStreamReader;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -24,6 +24,9 @@ public class Compilador extends JFrame {
 	
 	private JPanel contentPane;
 	private JTextArea taEditor;
+	private JLabel lblStatus;
+	private JPanel statusBar;
+	private JTextArea messageArea;
 
 	/**
 	 * Launch the application.
@@ -48,7 +51,7 @@ public class Compilador extends JFrame {
 	public Compilador() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 762);
+		setBounds(100, 100, 1024, 777);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -63,6 +66,7 @@ public class Compilador extends JFrame {
         codeEditor.setBounds(146, 11, 852, 538);
         contentPane.add(codeEditor);
         
+        
         taEditor = new JTextArea();
         codeEditor.setViewportView(taEditor);
         taEditor.setColumns(20);
@@ -76,13 +80,14 @@ public class Compilador extends JFrame {
         contentPane.add(messagePanel);
         
         JTextArea messageArea = new JTextArea();
+        messageArea.setEditable(false);
         messagePanel.setViewportView(messageArea);
         taEditor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 //taEditorKeyPressed(evt);
             }
         });
-		
+        
 		JButton btnNovo = new JButton("Novo (Ctrl+N)");
 		btnNovo.setBounds(10, 11, 112, 70);
 		btnMenu.add(btnNovo);
@@ -112,7 +117,16 @@ public class Compilador extends JFrame {
 		btnMenu.add(btnCompilar);
 		setTitle("Compilador");
 		
+		statusBar = new JPanel();
+		statusBar.setBounds(15, 696, 983, 31);
+		statusBar.setMinimumSize(new java.awt.Dimension(900, 25));
+		contentPane.add(statusBar);
+		statusBar.setLayout(null);
 		
+		lblStatus = new JLabel("");
+        lblStatus.setBounds(10, 11, 963, 14);
+        statusBar.add(lblStatus);
+        
 		btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("./novo.png")));
         btnNovo.setBorder(null);
         btnNovo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -126,6 +140,8 @@ public class Compilador extends JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	taEditor.setText("");
             	messageArea.setText("");
+            	lblStatus.setText("");
+            	arquivo = null;
             }
         });
         
@@ -139,7 +155,8 @@ public class Compilador extends JFrame {
         btnAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //btnAbrirActionPerformed(evt);
+            	acaoAbrir();
+            	messageArea.setText("");
             }
         });
 
@@ -217,16 +234,11 @@ public class Compilador extends JFrame {
                 btnEquipe.setPreferredSize(new java.awt.Dimension(112, 70));
                 btnEquipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
                 
-                JPanel statusBar = new JPanel();
-                statusBar.setBounds(15, 681, 201, 31);
-                contentPane.add(statusBar);
-                statusBar.setLayout(null);
                 
                 
                 
-                JLabel lblStatus = new JLabel("temp");
-                lblStatus.setBounds(10, 11, 74, 14);
-                statusBar.add(lblStatus);
+                
+                
                 
                 btnEquipe.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,6 +255,60 @@ public class Compilador extends JFrame {
         
         
 	}
+	
+	//Abrir Button
+	
+	private void acaoAbrir() {
+
+        JFileChooser gerenciadorArquivo = new JFileChooser();
+
+        gerenciadorArquivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        gerenciadorArquivo.setFileFilter(
+            new FileNameExtensionFilter("Arquivo .txt", "txt")
+        );
+        
+
+        if (gerenciadorArquivo.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            
+
+            arquivo = gerenciadorArquivo.getSelectedFile();
+            
+
+            String status = setTextoEditor();
+
+            lblStatus.setText(status);
+        }
+    }
+	
+	private String setTextoEditor() {
+        
+        if (!arquivo.exists()) {
+            return "Arquivo não encontrado";
+        }
+        
+        try {
+            BufferedReader leitor = new BufferedReader(new InputStreamReader(new FileInputStream(arquivo)));
+            
+            String textoEditor = "";
+            String linha = leitor.readLine();
+            while (linha != null) {
+                textoEditor = textoEditor + linha + "\n";
+                linha = leitor.readLine();
+            }
+            
+            leitor.close();
+            
+            taEditor.setText(textoEditor);
+            
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        return arquivo.getPath();
+    }
+	
+	//Salvar Button
 	
 	private void actionSalvar() {
 		if (arquivo != null && arquivo.exists()){
