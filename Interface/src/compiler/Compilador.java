@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.JLabel;
 
 public class Compilador extends JFrame {
 
@@ -47,7 +48,7 @@ public class Compilador extends JFrame {
 	public Compilador() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 720);
+		setBounds(100, 100, 1024, 762);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -57,6 +58,30 @@ public class Compilador extends JFrame {
 		btnMenu.setBounds(5, 11, 131, 659);
 		contentPane.add(btnMenu);
 		btnMenu.setLayout(null);
+		
+		JScrollPane codeEditor = new JScrollPane();
+        codeEditor.setBounds(146, 11, 852, 538);
+        contentPane.add(codeEditor);
+        
+        taEditor = new JTextArea();
+        codeEditor.setViewportView(taEditor);
+        taEditor.setColumns(20);
+        taEditor.setRows(5);
+        taEditor.setBorder(new NumeredBorder());
+        taEditor.setMinimumSize(null);
+        taEditor.setPreferredSize(null);
+        
+        JScrollPane messagePanel = new JScrollPane();
+        messagePanel.setBounds(146, 559, 852, 111);
+        contentPane.add(messagePanel);
+        
+        JTextArea messageArea = new JTextArea();
+        messagePanel.setViewportView(messageArea);
+        taEditor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                //taEditorKeyPressed(evt);
+            }
+        });
 		
 		JButton btnNovo = new JButton("Novo (Ctrl+N)");
 		btnNovo.setBounds(10, 11, 112, 70);
@@ -99,7 +124,8 @@ public class Compilador extends JFrame {
         btnNovo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //btnNovoActionPerformed(evt);
+            	taEditor.setText("");
+            	messageArea.setText("");
             }
         });
         
@@ -191,9 +217,20 @@ public class Compilador extends JFrame {
                 btnEquipe.setPreferredSize(new java.awt.Dimension(112, 70));
                 btnEquipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
                 
+                JPanel statusBar = new JPanel();
+                statusBar.setBounds(15, 681, 201, 31);
+                contentPane.add(statusBar);
+                statusBar.setLayout(null);
+                
+                
+                
+                JLabel lblStatus = new JLabel("temp");
+                lblStatus.setBounds(10, 11, 74, 14);
+                statusBar.add(lblStatus);
+                
                 btnEquipe.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        taEditor.setText("Augusto Kalahary \n"
+                        messageArea.setText("Augusto Kalahary \n"
                         				+ "Daniel Busarello \n"
                         				+ "Fernando Butzke");
                     }
@@ -204,29 +241,7 @@ public class Compilador extends JFrame {
             }
         });
         
-        JScrollPane codeEditor = new JScrollPane();
-        codeEditor.setBounds(146, 11, 852, 538);
-        contentPane.add(codeEditor);
         
-        taEditor = new JTextArea();
-        codeEditor.setViewportView(taEditor);
-        taEditor.setColumns(20);
-        taEditor.setRows(5);
-        taEditor.setBorder(new NumeredBorder());
-        taEditor.setMinimumSize(null);
-        taEditor.setPreferredSize(null);
-        
-        JScrollPane statusPanel = new JScrollPane();
-        statusPanel.setBounds(146, 559, 852, 111);
-        contentPane.add(statusPanel);
-        
-        JTextArea statusBar = new JTextArea();
-        statusPanel.setViewportView(statusBar);
-        taEditor.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                //taEditorKeyPressed(evt);
-            }
-        });
 	}
 	
 	private void actionSalvar() {
