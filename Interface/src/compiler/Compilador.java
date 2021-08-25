@@ -188,6 +188,15 @@ public class Compilador extends JFrame {
         taEditor.setBorder(new NumeredBorder());
         taEditor.setMinimumSize(null);
         taEditor.setPreferredSize(null);
+        taEditor.setLineWrap(true);
+        
+        JScrollPane spEditor = new JScrollPane(taEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        spEditor.setBounds(5, 96, 862, 333);
+        spEditor.setAutoscrolls(true);
+        spEditor.setMinimumSize(new java.awt.Dimension(900, 400));
+        spEditor.setPreferredSize(new java.awt.Dimension(900, 400));
+        contentPane.add(spEditor);
+        
         
         JTextArea statusBar = new JTextArea();
         statusBar.setBounds(5, 440, 714, 110);
