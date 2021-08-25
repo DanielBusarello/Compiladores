@@ -81,21 +81,6 @@ public class Compilador extends JFrame {
 		
 		JButton btnCompilar = new JButton("Compilar (F9)");
 		btnMenu.add(btnCompilar);
-		
-		JButton btnEquipe = new JButton("Equipe (F1)");
-		btnMenu.add(btnEquipe);
-		
-		JPanel statusBar = new JPanel();
-		statusBar.setBounds(5, 546, 874, 10);
-		contentPane.add(statusBar);
-		
-		JScrollPane scrollCodeEditor = new JScrollPane();
-		scrollCodeEditor.setBounds(5, 85, 2, 461);
-		contentPane.add(scrollCodeEditor);
-		
-		JScrollPane scrollMessage = new JScrollPane();
-		scrollMessage.setBounds(877, 85, 2, 461);
-		contentPane.add(scrollMessage);
 		setTitle("Compilador");
 		
 		
@@ -194,23 +179,44 @@ public class Compilador extends JFrame {
                 //btnCompilarActionPerformed(evt);
             }
         });
-
-        btnEquipe.setIcon(new javax.swing.ImageIcon(getClass().getResource("./equipe.png"))); // NOI18N
-        btnEquipe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEquipe.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnEquipe.setMaximumSize(new java.awt.Dimension(112, 70));
-        btnEquipe.setMinimumSize(new java.awt.Dimension(112, 70));
-        btnEquipe.setPreferredSize(new java.awt.Dimension(112, 70));
-        btnEquipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         
         taEditor = new JTextArea();
-        taEditor.setBounds(15, 85, 859, 310);
+        taEditor.setBounds(5, 96, 862, 333);
         contentPane.add(taEditor);
-        btnEquipe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //btnEquipeActionPerformed(evt);
+        taEditor.setColumns(20);
+        taEditor.setRows(5);
+        taEditor.setBorder(new NumeredBorder());
+        taEditor.setMinimumSize(null);
+        taEditor.setPreferredSize(null);
+        
+        JTextArea statusBar = new JTextArea();
+        statusBar.setBounds(5, 440, 714, 110);
+        contentPane.add(statusBar);
+        
+        JButton btnEquipe = new JButton("Equipe (F1)");
+        btnEquipe.setBounds(755, 464, 112, 70);
+        contentPane.add(btnEquipe);
+        
+                btnEquipe.setIcon(new javax.swing.ImageIcon(getClass().getResource("./equipe.png"))); // NOI18N
+                btnEquipe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+                btnEquipe.setMargin(new java.awt.Insets(0, 0, 0, 0));
+                btnEquipe.setMaximumSize(new java.awt.Dimension(112, 70));
+                btnEquipe.setMinimumSize(new java.awt.Dimension(112, 70));
+                btnEquipe.setPreferredSize(new java.awt.Dimension(112, 70));
+                btnEquipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+                
+                
+                
+                btnEquipe.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        //btnEquipeActionPerformed(evt);
+                    }
+                }); 
+        taEditor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                //taEditorKeyPressed(evt);
             }
-        }); 
+        });
 	}
 	
 	private void actionSalvar() {
