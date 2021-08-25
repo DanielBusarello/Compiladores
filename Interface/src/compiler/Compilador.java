@@ -24,7 +24,9 @@ public class Compilador extends JFrame {
 	
 	private JPanel contentPane;
 	private JTextArea taEditor;
-
+	private JTextArea taMessage;
+	private JLabel lblStatus;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -59,30 +61,30 @@ public class Compilador extends JFrame {
 		contentPane.add(btnMenu);
 		btnMenu.setLayout(null);
 		
-		JScrollPane codeEditor = new JScrollPane();
-        codeEditor.setBounds(146, 11, 852, 538);
-        contentPane.add(codeEditor);
+		JScrollPane spEditor = new JScrollPane(taEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		spEditor.setBounds(146, 11, 852, 538);
+        contentPane.add(spEditor);
         
         taEditor = new JTextArea();
-        codeEditor.setViewportView(taEditor);
+        spEditor.setViewportView(taEditor);
         taEditor.setColumns(20);
         taEditor.setRows(5);
         taEditor.setBorder(new NumeredBorder());
         taEditor.setMinimumSize(null);
         taEditor.setPreferredSize(null);
         
-        JScrollPane messagePanel = new JScrollPane();
-        messagePanel.setBounds(146, 559, 852, 111);
-        contentPane.add(messagePanel);
+        JScrollPane spMessage = new JScrollPane(taMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        spMessage.setBounds(146, 559, 852, 111);
+        contentPane.add(spMessage);
         
-        JTextArea messageArea = new JTextArea();
-        messagePanel.setViewportView(messageArea);
+        taMessage = new JTextArea();
+        spMessage.setViewportView(taMessage);
         taEditor.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                //taEditorKeyPressed(evt);
-            }
+        	public void keyPressed(java.awt.event.KeyEvent evt) {
+        		//taEditorKeyPressed(evt);
+        	}
         });
-		
+        
 		JButton btnNovo = new JButton("Novo (Ctrl+N)");
 		btnNovo.setBounds(10, 11, 112, 70);
 		btnMenu.add(btnNovo);
@@ -112,7 +114,6 @@ public class Compilador extends JFrame {
 		btnMenu.add(btnCompilar);
 		setTitle("Compilador");
 		
-		
 		btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("./novo.png")));
         btnNovo.setBorder(null);
         btnNovo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -125,7 +126,7 @@ public class Compilador extends JFrame {
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	taEditor.setText("");
-            	messageArea.setText("");
+            	taMessage.setText("");
             }
         });
         
@@ -166,20 +167,7 @@ public class Compilador extends JFrame {
         btnCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCopiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //btnCopiarActionPerformed(evt);
-            }
-        });
-
-        btnColar.setIcon(new javax.swing.ImageIcon(getClass().getResource("./colar.png"))); // NOI18N
-        btnColar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnColar.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnColar.setMaximumSize(new java.awt.Dimension(112, 70));
-        btnColar.setMinimumSize(new java.awt.Dimension(110, 70));
-        btnColar.setPreferredSize(new java.awt.Dimension(110, 70));
-        btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnColar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //btnColarActionPerformed(evt);
+                btnCopiarActionPerformed(evt);
             }
         });
 
@@ -193,7 +181,20 @@ public class Compilador extends JFrame {
         btnCortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCortar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //btnCortarActionPerformed(evt);
+            	btnRecortarActionPerformed(evt);
+            }
+        });
+        
+        btnColar.setIcon(new javax.swing.ImageIcon(getClass().getResource("./colar.png"))); // NOI18N
+        btnColar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnColar.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnColar.setMaximumSize(new java.awt.Dimension(112, 70));
+        btnColar.setMinimumSize(new java.awt.Dimension(110, 70));
+        btnColar.setPreferredSize(new java.awt.Dimension(110, 70));
+        btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnColar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnColarActionPerformed(evt);
             }
         });
 
@@ -218,30 +219,41 @@ public class Compilador extends JFrame {
                 btnEquipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
                 
                 JPanel statusBar = new JPanel();
-                statusBar.setBounds(15, 681, 201, 31);
+                statusBar.setBounds(15, 681, 900, 31);
                 contentPane.add(statusBar);
                 statusBar.setLayout(null);
                 
-                
-                
-                JLabel lblStatus = new JLabel("temp");
+                lblStatus = new JLabel("pasta/arquivo");
                 lblStatus.setBounds(10, 11, 74, 14);
                 statusBar.add(lblStatus);
                 
                 btnEquipe.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        messageArea.setText("Augusto Kalahary \n"
+                        taMessage.setText("Augusto Kalahary \n"
                         				+ "Daniel Busarello \n"
                         				+ "Fernando Butzke");
                     }
                 }); 
         btnCompilar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //btnCompilarActionPerformed(evt);
+                
+            	//btnCompilarActionPerformed(evt);
             }
         });
         
         
+	}
+	
+	private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {
+		taEditor.copy();
+	}
+	
+	private void btnRecortarActionPerformed(java.awt.event.ActionEvent evt) {
+		taEditor.cut();
+	}
+	
+	private void btnColarActionPerformed(java.awt.event.ActionEvent evt) {
+		taEditor.paste();
 	}
 	
 	private void actionSalvar() {
@@ -256,12 +268,12 @@ public class Compilador extends JFrame {
 		try {
     		PrintWriter pw = new PrintWriter(arquivo);
     		
-    		String conteudo = taEditor.getText();
-    		
-    		pw.write("Teste");
+    		pw.write(taEditor.getText().replaceAll("\n", System.getProperty("line.separator")));
     		pw.flush();
     		
     		pw.close();
+    		
+    		taMessage.setText("");
     	} catch (IOException e) {
     		System.out.println(e.getMessage());
     	}
@@ -280,6 +292,7 @@ public class Compilador extends JFrame {
 			}
 			
 			salvarConteudoArquivo();
+			lblStatus.setText(arquivo.getPath());
 		}
 	}
 }
