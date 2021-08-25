@@ -1,25 +1,21 @@
 package compiler;
 
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
+
 import java.io.File;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class Compilador extends JFrame {
 
@@ -51,35 +47,43 @@ public class Compilador extends JFrame {
 	public Compilador() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 600);
+		setBounds(100, 100, 1024, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel btnMenu = new JPanel();
-		btnMenu.setBounds(5, 5, 874, 80);
+		btnMenu.setBounds(5, 11, 131, 659);
 		contentPane.add(btnMenu);
+		btnMenu.setLayout(null);
 		
 		JButton btnNovo = new JButton("Novo (Ctrl+N)");
+		btnNovo.setBounds(10, 11, 112, 70);
 		btnMenu.add(btnNovo);
 		
 		JButton btnAbrir = new JButton("Abrir (Ctrl+O)");
+		btnAbrir.setBounds(10, 92, 110, 70);
 		btnMenu.add(btnAbrir);
 		
 		JButton btnSalvar = new JButton("Salvar (Ctrl+S)");
+		btnSalvar.setBounds(10, 173, 110, 70);
 		btnMenu.add(btnSalvar);
 		
 		JButton btnCopiar = new JButton("Copiar (Ctrl+C)");
+		btnCopiar.setBounds(10, 254, 110, 70);
 		btnMenu.add(btnCopiar);
 		
 		JButton btnColar = new JButton("Colar (Ctrl+V)");
+		btnColar.setBounds(10, 335, 110, 70);
 		btnMenu.add(btnColar);
 		
 		JButton btnCortar = new JButton("Cortar (Ctrl+X)");
+		btnCortar.setBounds(10, 416, 110, 70);
 		btnMenu.add(btnCortar);
 		
 		JButton btnCompilar = new JButton("Compilar (F9)");
+		btnCompilar.setBounds(12, 497, 110, 70);
 		btnMenu.add(btnCompilar);
 		setTitle("Compilador");
 		
@@ -174,28 +178,10 @@ public class Compilador extends JFrame {
         btnCompilar.setMinimumSize(new java.awt.Dimension(110, 70));
         btnCompilar.setPreferredSize(new java.awt.Dimension(110, 70));
         btnCompilar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnCompilar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //btnCompilarActionPerformed(evt);
-            }
-        });
-        
-        taEditor = new JTextArea();
-        taEditor.setBounds(5, 96, 862, 333);
-        contentPane.add(taEditor);
-        taEditor.setColumns(20);
-        taEditor.setRows(5);
-        taEditor.setBorder(new NumeredBorder());
-        taEditor.setMinimumSize(null);
-        taEditor.setPreferredSize(null);
-        
-        JTextArea statusBar = new JTextArea();
-        statusBar.setBounds(5, 440, 714, 110);
-        contentPane.add(statusBar);
         
         JButton btnEquipe = new JButton("Equipe (F1)");
-        btnEquipe.setBounds(755, 464, 112, 70);
-        contentPane.add(btnEquipe);
+        btnEquipe.setBounds(10, 578, 112, 70);
+        btnMenu.add(btnEquipe);
         
                 btnEquipe.setIcon(new javax.swing.ImageIcon(getClass().getResource("./equipe.png"))); // NOI18N
                 btnEquipe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -205,13 +191,37 @@ public class Compilador extends JFrame {
                 btnEquipe.setPreferredSize(new java.awt.Dimension(112, 70));
                 btnEquipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
                 
-                
-                
                 btnEquipe.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        //btnEquipeActionPerformed(evt);
+                        taEditor.setText("Augusto Kalahary \n"
+                        				+ "Daniel Busarello \n"
+                        				+ "Fernando Butzke");
                     }
                 }); 
+        btnCompilar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                //btnCompilarActionPerformed(evt);
+            }
+        });
+        
+        JScrollPane codeEditor = new JScrollPane();
+        codeEditor.setBounds(146, 11, 852, 538);
+        contentPane.add(codeEditor);
+        
+        taEditor = new JTextArea();
+        codeEditor.setViewportView(taEditor);
+        taEditor.setColumns(20);
+        taEditor.setRows(5);
+        taEditor.setBorder(new NumeredBorder());
+        taEditor.setMinimumSize(null);
+        taEditor.setPreferredSize(null);
+        
+        JScrollPane statusPanel = new JScrollPane();
+        statusPanel.setBounds(146, 559, 852, 111);
+        contentPane.add(statusPanel);
+        
+        JTextArea statusBar = new JTextArea();
+        statusPanel.setViewportView(statusBar);
         taEditor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 //taEditorKeyPressed(evt);
