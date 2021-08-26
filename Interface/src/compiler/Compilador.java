@@ -43,13 +43,8 @@ public class Compilador extends JFrame {
 	private JButton btnCompilar;
 	private JButton btnEquipe;
 	private JPanel btnMenu;
-	
-	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
+  public static void main(String[] args) {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -64,9 +59,6 @@ public class Compilador extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Compilador() {		
 		
 		
@@ -82,32 +74,35 @@ public class Compilador extends JFrame {
 		contentPane.add(btnMenu);
 		btnMenu.setLayout(null);
 		
-		JScrollPane codeEditor = new JScrollPane();
-        codeEditor.setBounds(146, 11, 852, 538);
-        contentPane.add(codeEditor);
+		JScrollPane spEditor = new JScrollPane(taEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		spEditor.setBounds(146, 11, 852, 538);
+        contentPane.add(spEditor);
         
         
         taEditor = new JTextArea();
-        codeEditor.setViewportView(taEditor);
+        spEditor.setViewportView(taEditor);
         taEditor.setColumns(20);
         taEditor.setRows(5);
         taEditor.setBorder(new NumeredBorder());
         taEditor.setMinimumSize(null);
         taEditor.setPreferredSize(null);
         
-        JScrollPane messagePanel = new JScrollPane();
-        messagePanel.setBounds(146, 559, 852, 111);
-        contentPane.add(messagePanel);
+        JScrollPane spMessage = new JScrollPane(taMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        spMessage.setBounds(146, 559, 852, 111);
+        contentPane.add(spMessage);
         
+
+        spMessage.setViewportView(taMessage);
         JTextArea messageArea = new JTextArea();
         messageArea.setEditable(false);
         messagePanel.setViewportView(messageArea);
+
         taEditor.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                //taEditorKeyPressed(evt);
-            }
+        	public void keyPressed(java.awt.event.KeyEvent evt) {
+        	}
         });
         
+		JButton btnNovo = new JButton("Novo (Ctrl+N)");
 		btnNovo = new JButton("Novo (Ctrl+N)");
 		btnNovo.setBounds(10, 11, 112, 70);
 		btnMenu.add(btnNovo);
@@ -137,7 +132,6 @@ public class Compilador extends JFrame {
 		btnMenu.add(btnCompilar);
 		setTitle("Compilador");
 		
-		
 		statusBar = new JPanel();
 		statusBar.setBounds(15, 696, 983, 31);
 		statusBar.setMinimumSize(new java.awt.Dimension(900, 25));
@@ -145,9 +139,9 @@ public class Compilador extends JFrame {
 		statusBar.setLayout(null);
 		
 		lblStatus = new JLabel("");
-        lblStatus.setBounds(10, 11, 963, 14);
-        statusBar.add(lblStatus);
-        
+    lblStatus.setBounds(10, 11, 963, 14);
+    statusBar.add(lblStatus);
+
 		btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("./novo.png")));
         btnNovo.setBorder(null);
         btnNovo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -160,6 +154,7 @@ public class Compilador extends JFrame {
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	taEditor.setText("");
+            	taMessage.setText("");
             	messageArea.setText("");
             	lblStatus.setText("");
             	arquivo = null;
@@ -204,20 +199,7 @@ public class Compilador extends JFrame {
         btnCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCopiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //ação do botão de copiar
-            }
-        });
-
-        btnColar.setIcon(new javax.swing.ImageIcon(getClass().getResource("./colar.png"))); // NOI18N
-        btnColar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnColar.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnColar.setMaximumSize(new java.awt.Dimension(112, 70));
-        btnColar.setMinimumSize(new java.awt.Dimension(110, 70));
-        btnColar.setPreferredSize(new java.awt.Dimension(110, 70));
-        btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnColar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //ação do botão de colar
+                btnCopiarActionPerformed(evt);
             }
         });
 
@@ -231,7 +213,20 @@ public class Compilador extends JFrame {
         btnCortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCortar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //ação do botão de cortar
+            	btnRecortarActionPerformed(evt);
+            }
+        });
+        
+        btnColar.setIcon(new javax.swing.ImageIcon(getClass().getResource("./colar.png"))); // NOI18N
+        btnColar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnColar.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnColar.setMaximumSize(new java.awt.Dimension(112, 70));
+        btnColar.setMinimumSize(new java.awt.Dimension(110, 70));
+        btnColar.setPreferredSize(new java.awt.Dimension(110, 70));
+        btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnColar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnColarActionPerformed(evt);
             }
         });
 
@@ -247,6 +242,7 @@ public class Compilador extends JFrame {
         btnEquipe.setBounds(10, 578, 112, 70);
         btnMenu.add(btnEquipe);
         
+
         btnEquipe.setIcon(new javax.swing.ImageIcon(getClass().getResource("./equipe.png"))); // NOI18N
         btnEquipe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEquipe.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -263,7 +259,7 @@ public class Compilador extends JFrame {
         }); 
         btnCompilar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //ação do botão de compilar
+                System.out.println("FunÃ§Ã£o ainda nÃ£o implementada");
             }
         });
         
@@ -273,8 +269,18 @@ public class Compilador extends JFrame {
         definirTeclasAtalho();
 	}
 	
-	//Abrir Button
+	private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {
+		taEditor.copy();
+	}
 	
+	private void btnRecortarActionPerformed(java.awt.event.ActionEvent evt) {
+		taEditor.cut();
+	}
+	
+	private void btnColarActionPerformed(java.awt.event.ActionEvent evt) {
+		taEditor.paste();
+	}
+
 	private void acaoAbrir() {
 
         JFileChooser gerenciadorArquivo = new JFileChooser();
@@ -301,7 +307,7 @@ public class Compilador extends JFrame {
 	private String setTextoEditor() {
         
         if (!arquivo.exists()) {
-            return "Arquivo nÃ£o encontrado";
+            return "Arquivo nÃƒÂ£o encontrado";
         }
         
         try {
@@ -325,8 +331,6 @@ public class Compilador extends JFrame {
         return arquivo.getPath();
     }
 	
-	//Salvar Button
-	
 	private void actionSalvar() {
 		if (arquivo != null && arquivo.exists()){
 			salvarConteudoArquivo();
@@ -339,12 +343,12 @@ public class Compilador extends JFrame {
 		try {
     		PrintWriter pw = new PrintWriter(arquivo);
     		
-    		String conteudo = taEditor.getText();
-    		
-    		pw.write("Teste");
+    		pw.write(taEditor.getText().replaceAll("\n", System.getProperty("line.separator")));
     		pw.flush();
     		
     		pw.close();
+    		
+    		taMessage.setText("");
     	} catch (IOException e) {
     		System.out.println(e.getMessage());
     	}
@@ -363,8 +367,11 @@ public class Compilador extends JFrame {
 			}
 			
 			salvarConteudoArquivo();
+			lblStatus.setText(arquivo.getPath());
 		}
 	}
+}
+
 	
 	private void definirTeclasAtalho() {
         ActionMap actionMap = btnMenu.getActionMap();
@@ -405,3 +412,4 @@ public class Compilador extends JFrame {
 		}
 	}
 }
+
