@@ -72,7 +72,7 @@ public class Compilador extends JFrame {
 		setBounds(100, 100, 900, 600);
 		setMinimumSize(new Dimension(900, 600));
 		view = new JPanel();
-		view.setBorder(new EmptyBorder(5, 5, 5, 5));
+		view.setBorder(null);
 		setContentPane(view);
 		
 		btnMenu = new JPanel();
@@ -241,17 +241,20 @@ public class Compilador extends JFrame {
         gl_view.setHorizontalGroup(
         	gl_view.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_view.createSequentialGroup()
+        			.addComponent(btnMenu, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(gl_view.createParallelGroup(Alignment.LEADING)
         				.addGroup(gl_view.createSequentialGroup()
-        					.addComponent(btnMenu, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addGroup(gl_view.createParallelGroup(Alignment.LEADING)
-        						.addComponent(spEditor, GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
-        						.addComponent(spMessage)))
+        					.addComponent(spMessage, GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
+        					.addGap(4))
         				.addGroup(gl_view.createSequentialGroup()
-        					.addContainerGap()
-        					.addComponent(lblStatus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-        			.addGap(0))
+        					.addComponent(spEditor, GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
+        					.addGap(1)))
+        			.addGap(5))
+        		.addGroup(gl_view.createSequentialGroup()
+        			.addGap(10)
+        			.addComponent(lblStatus, GroupLayout.PREFERRED_SIZE, 868, Short.MAX_VALUE)
+        			.addContainerGap())
         );
         gl_view.setVerticalGroup(
         	gl_view.createParallelGroup(Alignment.LEADING)
@@ -260,12 +263,12 @@ public class Compilador extends JFrame {
         			.addGroup(gl_view.createParallelGroup(Alignment.LEADING)
         				.addComponent(btnMenu, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
         				.addGroup(gl_view.createSequentialGroup()
-        					.addComponent(spEditor, GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+        					.addComponent(spEditor, GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
         					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(spMessage, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)))
+        					.addComponent(spMessage, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)))
         			.addGap(18)
         			.addComponent(lblStatus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        			.addGap(27))
+        			.addGap(12))
         );
         view.setLayout(gl_view);
         btnEquipe.addActionListener(new java.awt.event.ActionListener() {
