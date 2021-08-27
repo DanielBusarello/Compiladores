@@ -1,3 +1,7 @@
+// Augusto Kalahary
+// Daniel Busarello
+// Fernando Butzke
+
 package compiler;
 
 import java.awt.Dimension;
@@ -225,7 +229,7 @@ public class Compilador extends JFrame {
 		
 		btnCut = new JButton("Cortar (Ctrl+X)");
 		btnCut.setIcon(new javax.swing.ImageIcon(getClass().getResource("./recortar.png")));
-        btnCut.setText("recortar [ctrl-x]");
+        btnCut.setText("Cortar (Ctrl-x)");
         btnCut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCut.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btnCut.setMaximumSize(new java.awt.Dimension(110, 70));

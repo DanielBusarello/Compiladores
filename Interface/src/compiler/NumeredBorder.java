@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.border.AbstractBorder;
 
+@SuppressWarnings("serial")
 public class NumeredBorder extends AbstractBorder {
 	private int lineHeight = 16;
 	private int characterHeight = 8;
