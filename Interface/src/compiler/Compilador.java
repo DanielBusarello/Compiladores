@@ -1,6 +1,5 @@
 package compiler;
 
-
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -14,7 +13,6 @@ import java.io.PrintWriter;
 import java.io.InputStreamReader;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -30,30 +28,56 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+@SuppressWarnings("serial")
 public class Compilador extends JFrame {
 	private File file = null;
 
 	// Paineis do Compilador
 	private JPanel view;
-	private JPanel btnMenu;
+	private JPanel menuItens;
 	
+	// Variáveis dos botões
+	private JButton btnNew;
+	private JButton btnOpen;
+	private JButton btnSave;
+	private JButton btnCopy;
+	private JButton btnPaste;
+	private JButton btnCut;
+	private JButton btnCompile;
+	private JButton btnTeam;
 	
+	// TextArea do Editor e Mensagens
 	private JTextArea taEditor;
 	private JTextArea taMessage;
-	private JButton btnNovo;
-	private JButton btnAbrir;
-	private JButton btnSalvar;
-	private JButton btnCopiar;
-	private JButton btnColar;
-	private JButton btnCortar;
-	private JButton btnCompilar;
-	private JButton btnEquipe;
+	
+	// Scrolls do Editor e Mensagens
+	private JScrollPane spEditor;
+	private JScrollPane spMessage;
+
 	private JLabel lblStatus;
 	
   public static void main(String[] args) {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				// Altera o design do Compilador baseado no sistema Windows do usuário
+				try {
+		            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+		                if ("Windows".equals(info.getName())) {
+		                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+		                    break;
+		                }
+		            }
+		        } catch (ClassNotFoundException ex) {
+		            java.util.logging.Logger.getLogger(Compilador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		        } catch (InstantiationException ex) {
+		            java.util.logging.Logger.getLogger(Compilador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		        } catch (IllegalAccessException ex) {
+		            java.util.logging.Logger.getLogger(Compilador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+		            java.util.logging.Logger.getLogger(Compilador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		        }
+				
 				try {
 					Compilador frame = new Compilador();
 					frame.setVisible(true);
@@ -66,267 +90,249 @@ public class Compilador extends JFrame {
 	}
 
 	public Compilador() {		
-		
+		initComponents();
+		defineHotkeys();
+	}
+	
+	private void initComponents() {
+		// Inicia a janela e a View
+		view = new JPanel();
+		view.setBorder(null);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 600);
 		setMinimumSize(new Dimension(900, 600));
-		view = new JPanel();
-		view.setBorder(null);
+		setPreferredSize(new Dimension(1024, 720));
 		setContentPane(view);
+		setTitle("Compilador");
 		
-		btnMenu = new JPanel();
-		btnMenu.setMinimumSize(new Dimension(150, 500));
-		
-		JScrollPane spEditor = new JScrollPane(taEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        
-        
-        taEditor = new JTextArea();
-        spEditor.setViewportView(taEditor);
+		// Editor
+		taEditor = new JTextArea();
         taEditor.setColumns(20);
         taEditor.setRows(5);
         taEditor.setBorder(new NumeredBorder());
         taEditor.setMinimumSize(null);
         taEditor.setPreferredSize(null);
-        
-        JScrollPane spMessage = new JScrollPane(taMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        
-
-        spMessage.setViewportView(taMessage);
-        JTextArea messageArea = new JTextArea();
-        messageArea.setEditable(false);
-        spMessage.setViewportView(messageArea);
-
         taEditor.addKeyListener(new java.awt.event.KeyAdapter() {
         	public void keyPressed(java.awt.event.KeyEvent evt) {
         	}
         });
         
-		JButton btnNovo = new JButton("Novo (Ctrl+N)");
-		btnMenu.setLayout(new GridLayout(0, 1, 0, 0));
-		btnNovo = new JButton("Novo (Ctrl+N)");
-		btnMenu.add(btnNovo);
-		
-		btnAbrir = new JButton("Abrir (Ctrl+O)");
-		btnMenu.add(btnAbrir);
-		
-		btnSalvar = new JButton("Salvar (Ctrl+S)");
-		btnMenu.add(btnSalvar);
-		
-		btnCopiar = new JButton("Copiar (Ctrl+C)");
-		btnMenu.add(btnCopiar);
-		
-		btnColar = new JButton("Colar (Ctrl+V)");
-		btnMenu.add(btnColar);
-		
-		btnCortar = new JButton("Cortar (Ctrl+X)");
-		btnMenu.add(btnCortar);
-		
-		btnCompilar = new JButton("Compilar (F9)");
-		btnMenu.add(btnCompilar);
-		setTitle("Compilador");
+        spEditor = new JScrollPane(taEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		spEditor.setViewportView(taEditor);
+        
+		// Mensagem
+        taMessage = new JTextArea();
+        taMessage.setEditable(false);
 
-		btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("./novo.png")));
-        btnNovo.setBorder(null);
-        btnNovo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnNovo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnNovo.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnNovo.setMaximumSize(new java.awt.Dimension(110, 50));
-        btnNovo.setMinimumSize(new java.awt.Dimension(110, 50));
-        btnNovo.setPreferredSize(new java.awt.Dimension(110, 50));
-        btnNovo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnNovo.addActionListener(new java.awt.event.ActionListener() {
+        spMessage = new JScrollPane(taMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        spMessage.setViewportView(taMessage);
+        
+        // Status Bar
+        lblStatus = new JLabel("");
+        lblStatus.setPreferredSize(new Dimension(900, 25));
+        lblStatus.setMinimumSize(new Dimension(900, 25));
+        
+        // Painel dos botões
+ 		menuItens = new JPanel();
+ 		menuItens.setMinimumSize(new Dimension(150, 500));
+ 		menuItens.setLayout(new GridLayout(0, 1, 0, 0));
+     		
+ 		// Botões
+ 		btnNew = new JButton("Novo (Ctrl+N)");
+ 		btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("./novo.png")));
+        btnNew.setBorder(null);
+        btnNew.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNew.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnNew.setMaximumSize(new java.awt.Dimension(110, 50));
+        btnNew.setMinimumSize(new java.awt.Dimension(110, 50));
+        btnNew.setPreferredSize(new java.awt.Dimension(110, 50));
+        btnNew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	taEditor.setText("");
-            	messageArea.setText("");
-            	messageArea.setText("");
+            	taMessage.setText("");
+            	taMessage.setText("");
             	lblStatus.setText("");
             	file = null;
             }
         });
-        
-        btnAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("./abrir.png"))); // NOI18N
-        btnAbrir.setBorder(null);
-        btnAbrir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAbrir.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnAbrir.setMaximumSize(new Dimension(110, 50));
-        btnAbrir.setMinimumSize(new Dimension(110, 50));
-        btnAbrir.setPreferredSize(new Dimension(110, 50));
-        btnAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
+		menuItens.add(btnNew);
+ 		
+		btnOpen = new JButton("Abrir (Ctrl+O)");
+		btnOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("./abrir.png")));
+        btnOpen.setBorder(null);
+        btnOpen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpen.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnOpen.setMaximumSize(new Dimension(110, 50));
+        btnOpen.setMinimumSize(new Dimension(110, 50));
+        btnOpen.setPreferredSize(new Dimension(110, 50));
+        btnOpen.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	acaoAbrir();
-            	messageArea.setText("");
+            	actionOpen();
+            	taMessage.setText("");
             }
         });
-
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("./salvar.png"))); // NOI18N
-        btnSalvar.setBorder(null);
-        btnSalvar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSalvar.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnSalvar.setMaximumSize(new java.awt.Dimension(112, 70));
-        btnSalvar.setMinimumSize(new java.awt.Dimension(112, 70));
-        btnSalvar.setPreferredSize(new java.awt.Dimension(110, 70));
-        btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+		menuItens.add(btnOpen);
+		
+		btnSave = new JButton("Salvar (Ctrl+S)");
+		btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("./salvar.png")));
+        btnSave.setBorder(null);
+        btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSave.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnSave.setMaximumSize(new java.awt.Dimension(112, 70));
+        btnSave.setMinimumSize(new java.awt.Dimension(112, 70));
+        btnSave.setPreferredSize(new java.awt.Dimension(110, 70));
+        btnSave.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	actionSalvar();
+            	actionSave();
             }
         });
-
-        btnCopiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("./copiar.png"))); // NOI18N
-        btnCopiar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCopiar.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnCopiar.setMaximumSize(new java.awt.Dimension(112, 70));
-        btnCopiar.setMinimumSize(new java.awt.Dimension(112, 70));
-        btnCopiar.setPreferredSize(new java.awt.Dimension(110, 70));
-        btnCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnCopiar.addActionListener(new java.awt.event.ActionListener() {
+		menuItens.add(btnSave);
+		
+		btnCopy = new JButton("Copiar (Ctrl+C)");
+		btnCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("./copiar.png")));
+        btnCopy.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCopy.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnCopy.setMaximumSize(new java.awt.Dimension(112, 70));
+        btnCopy.setMinimumSize(new java.awt.Dimension(112, 70));
+        btnCopy.setPreferredSize(new java.awt.Dimension(110, 70));
+        btnCopy.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCopy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCopiarActionPerformed(evt);
+                btnCopyActionPerformed(evt);
             }
         });
-
-        btnCortar.setIcon(new javax.swing.ImageIcon(getClass().getResource("./recortar.png"))); // NOI18N
-        btnCortar.setText("recortar [ctrl-x]");
-        btnCortar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCortar.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnCortar.setMaximumSize(new java.awt.Dimension(110, 70));
-        btnCortar.setMinimumSize(new java.awt.Dimension(110, 70));
-        btnCortar.setPreferredSize(new java.awt.Dimension(110, 70));
-        btnCortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnCortar.addActionListener(new java.awt.event.ActionListener() {
+		menuItens.add(btnCopy);
+		
+		btnPaste = new JButton("Colar (Ctrl+V)");
+		btnPaste.setIcon(new javax.swing.ImageIcon(getClass().getResource("./colar.png")));
+		btnPaste.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		btnPaste.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btnPaste.setMaximumSize(new java.awt.Dimension(112, 70));
+		btnPaste.setMinimumSize(new java.awt.Dimension(110, 70));
+		btnPaste.setPreferredSize(new java.awt.Dimension(110, 70));
+		btnPaste.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+		btnPaste.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnPasteActionPerformed(evt);
+			}
+		});
+		menuItens.add(btnPaste);
+		
+		btnCut = new JButton("Cortar (Ctrl+X)");
+		btnCut.setIcon(new javax.swing.ImageIcon(getClass().getResource("./recortar.png")));
+        btnCut.setText("recortar [ctrl-x]");
+        btnCut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCut.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnCut.setMaximumSize(new java.awt.Dimension(110, 70));
+        btnCut.setMinimumSize(new java.awt.Dimension(110, 70));
+        btnCut.setPreferredSize(new java.awt.Dimension(110, 70));
+        btnCut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	btnRecortarActionPerformed(evt);
+            	btnCutActionPerformed(evt);
             }
         });
-        
-        btnColar.setIcon(new javax.swing.ImageIcon(getClass().getResource("./colar.png"))); // NOI18N
-        btnColar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnColar.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnColar.setMaximumSize(new java.awt.Dimension(112, 70));
-        btnColar.setMinimumSize(new java.awt.Dimension(110, 70));
-        btnColar.setPreferredSize(new java.awt.Dimension(110, 70));
-        btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnColar.addActionListener(new java.awt.event.ActionListener() {
+		menuItens.add(btnCut);
+		
+		btnCompile = new JButton("Compilar (F9)");
+		btnCompile.setIcon(new javax.swing.ImageIcon(getClass().getResource("./compilar.png")));
+        btnCompile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCompile.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnCompile.setMaximumSize(new java.awt.Dimension(110, 70));
+        btnCompile.setMinimumSize(new java.awt.Dimension(110, 70));
+        btnCompile.setPreferredSize(new java.awt.Dimension(110, 70));
+        btnCompile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCompile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnColarActionPerformed(evt);
+                taMessage.setText("Função não implementada nesta versão");
             }
         });
-
-        btnCompilar.setIcon(new javax.swing.ImageIcon(getClass().getResource("./compilar.png"))); // NOI18N
-        btnCompilar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCompilar.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnCompilar.setMaximumSize(new java.awt.Dimension(110, 70));
-        btnCompilar.setMinimumSize(new java.awt.Dimension(110, 70));
-        btnCompilar.setPreferredSize(new java.awt.Dimension(110, 70));
-        btnCompilar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        
-        btnEquipe = new JButton("Equipe (F1)");
-        btnMenu.add(btnEquipe);
-        
-
-        btnEquipe.setIcon(new javax.swing.ImageIcon(getClass().getResource("./equipe.png"))); // NOI18N
-        btnEquipe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEquipe.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btnEquipe.setMaximumSize(new java.awt.Dimension(112, 70));
-        btnEquipe.setMinimumSize(new java.awt.Dimension(112, 70));
-        btnEquipe.setPreferredSize(new java.awt.Dimension(112, 70));
-        btnEquipe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        
-        lblStatus = new JLabel("");
-        lblStatus.setPreferredSize(new Dimension(900, 25));
-        lblStatus.setMinimumSize(new Dimension(900, 25));
-        GroupLayout gl_view = new GroupLayout(view);
-        gl_view.setHorizontalGroup(
-        	gl_view.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_view.createSequentialGroup()
-        			.addComponent(btnMenu, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addGroup(gl_view.createParallelGroup(Alignment.LEADING)
-        				.addGroup(gl_view.createSequentialGroup()
-        					.addComponent(spMessage, GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
-        					.addGap(4))
-        				.addGroup(gl_view.createSequentialGroup()
-        					.addComponent(spEditor, GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
-        					.addGap(1)))
-        			.addGap(5))
-        		.addGroup(gl_view.createSequentialGroup()
-        			.addGap(10)
-        			.addComponent(lblStatus, GroupLayout.PREFERRED_SIZE, 868, Short.MAX_VALUE)
-        			.addContainerGap())
-        );
-        gl_view.setVerticalGroup(
-        	gl_view.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_view.createSequentialGroup()
-        			.addGap(6)
-        			.addGroup(gl_view.createParallelGroup(Alignment.LEADING)
-        				.addComponent(btnMenu, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-        				.addGroup(gl_view.createSequentialGroup()
-        					.addComponent(spEditor, GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(spMessage, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)))
-        			.addGap(18)
-        			.addComponent(lblStatus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        			.addGap(12))
-        );
-        view.setLayout(gl_view);
-        btnEquipe.addActionListener(new java.awt.event.ActionListener() {
+		menuItens.add(btnCompile);
+		
+		btnTeam = new JButton("Equipe (F1)");
+        btnTeam.setIcon(new javax.swing.ImageIcon(getClass().getResource("./equipe.png")));
+        btnTeam.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnTeam.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnTeam.setMaximumSize(new java.awt.Dimension(112, 70));
+        btnTeam.setMinimumSize(new java.awt.Dimension(112, 70));
+        btnTeam.setPreferredSize(new java.awt.Dimension(112, 70));
+        btnTeam.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnTeam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                messageArea.setText("Augusto Kalahary \n"
+                taMessage.setText("Augusto Kalahary \n"
                 				+ "Daniel Busarello \n"
                 				+ "Fernando Butzke");
             }
         }); 
-        btnCompilar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                System.out.println("Função ainda não implementada");
-            }
-        });
+        menuItens.add(btnTeam);
         
-        
-        
-        
-        definirTeclasAtalho();
-	}
+        // Layout da View para realizar o redimensionamento dos componentes
+ 		GroupLayout gl_view = new GroupLayout(view);
+         gl_view.setHorizontalGroup(
+         	gl_view.createParallelGroup(Alignment.LEADING)
+         		.addGroup(gl_view.createSequentialGroup()
+         			.addComponent(menuItens, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+         			.addPreferredGap(ComponentPlacement.RELATED)
+         			.addGroup(gl_view.createParallelGroup(Alignment.LEADING)
+         				.addComponent(spMessage, GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
+         				.addComponent(spEditor, GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE))
+         			.addGap(6))
+         		.addGroup(gl_view.createSequentialGroup()
+         			.addGap(10)
+         			.addComponent(lblStatus, GroupLayout.PREFERRED_SIZE, 868, Short.MAX_VALUE)
+         			.addContainerGap())
+         );
+         gl_view.setVerticalGroup(
+         	gl_view.createParallelGroup(Alignment.LEADING)
+         		.addGroup(gl_view.createSequentialGroup()
+         			.addGap(6)
+         			.addGroup(gl_view.createParallelGroup(Alignment.LEADING)
+         				.addComponent(menuItens, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+         				.addGroup(gl_view.createSequentialGroup()
+         					.addComponent(spEditor, GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+         					.addPreferredGap(ComponentPlacement.RELATED)
+         					.addComponent(spMessage, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)))
+         			.addGap(18)
+         			.addComponent(lblStatus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+         			.addGap(12))
+         );
+         view.setLayout(gl_view);
+    }
 	
-	private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {
+	// Actions e Hotkeys
+	private void btnCopyActionPerformed(java.awt.event.ActionEvent evt) {
 		taEditor.copy();
 	}
 	
-	private void btnRecortarActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnCutActionPerformed(java.awt.event.ActionEvent evt) {
 		taEditor.cut();
 	}
 	
-	private void btnColarActionPerformed(java.awt.event.ActionEvent evt) {
+	private void btnPasteActionPerformed(java.awt.event.ActionEvent evt) {
 		taEditor.paste();
 	}
 
-	private void acaoAbrir() {
+	private void actionOpen() {
+        JFileChooser fileChooser = new JFileChooser();
 
-        JFileChooser gerenciadorArquivo = new JFileChooser();
-
-        gerenciadorArquivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-        gerenciadorArquivo.setFileFilter(
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setFileFilter(
             new FileNameExtensionFilter("Arquivo .txt", "txt")
         );
-        
 
-        if (gerenciadorArquivo.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            
-
-            file = gerenciadorArquivo.getSelectedFile();
-            
-
-            String status = setTextoEditor();
-
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            file = fileChooser.getSelectedFile();
+            String status = setEditorContent();
             lblStatus.setText(status);
         }
     }
 	
-	private String setTextoEditor() {
-        
+	private String setEditorContent() {
         if (!file.exists()) {
             return "Arquivo nÃ£o encontrado";
         }
@@ -342,25 +348,24 @@ public class Compilador extends JFrame {
             }
             
             leitor.close();
-            
             taEditor.setText(textoEditor);
             
         } catch(IOException e) {
-            System.out.println(e.getMessage());
+            taMessage.append("\n" + e.getMessage());
         }
         
         return file.getPath();
     }
 	
-	private void actionSalvar() {
+	private void actionSave() {
 		if (file != null && file.exists()){
-			salvarConteudoArquivo();
+			saveContentFile();
 		} else {
-			salvarNovoArquivo();
+			saveNewFile();
 		}
 	}
 	
-	private void salvarConteudoArquivo() {
+	private void saveContentFile() {
 		try {
     		PrintWriter pw = new PrintWriter(file);
     		
@@ -371,65 +376,62 @@ public class Compilador extends JFrame {
     		
     		taMessage.setText("");
     	} catch (IOException e) {
-    		System.out.println(e.getMessage());
+    		taMessage.append("\n" + e.getMessage());
     	}
     }
 	
-	private void salvarNovoArquivo() {
-		JFileChooser jfc = new JFileChooser();
-		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		jfc.setFileFilter(new FileNameExtensionFilter("Arquivo .txt", "txt"));
+	private void saveNewFile() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Arquivo .txt", "txt"));
 		
-		if (jfc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-			file = jfc.getSelectedFile();
+		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			file = fileChooser.getSelectedFile();
 			
 			if(!file.getAbsolutePath().contains(".txt")) {
 				file = new File(file.getPath() + ".txt");
 			}
 			
-			salvarConteudoArquivo();
+			saveContentFile();
 			lblStatus.setText(file.getPath());
 		}
 	}
 
-
-	
-	private void definirTeclasAtalho() {
-        ActionMap actionMap = btnMenu.getActionMap();
-        
-        actionMap.put("btnNovo", new btnAcaoMenu(btnNovo));
-        actionMap.put("btnAbrir", new btnAcaoMenu(btnAbrir));
-        actionMap.put("btnSalvar", new btnAcaoMenu(btnSalvar));
-        actionMap.put("btnCopiar", new btnAcaoMenu(btnCopiar));
-        actionMap.put("btnColar", new btnAcaoMenu(btnColar));
-        actionMap.put("btnCortar", new btnAcaoMenu(btnCortar));
-        actionMap.put("btnCompilar", new btnAcaoMenu(btnCompilar));
-        actionMap.put("btnEquipe", new btnAcaoMenu(btnEquipe));
-        btnMenu.setActionMap(actionMap);
-
-        InputMap imap = btnMenu.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
-
-        imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK), "btnNovo");
-        imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK), "btnAbrir");
-        imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK), "btnSalvar");
-        imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK), "btnCopiar");
-        imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK), "btnColar");
-        imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK), "btnCortar");
-        imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0), "btnCompilar");
-        imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), "btnEquipe");
-    }
-
-	private class btnAcaoMenu extends AbstractAction {
-		private javax.swing.JButton btnAcao;
+	private class btnMenuAction extends AbstractAction {
+		private javax.swing.JButton btnAction;
 		
-		public btnAcaoMenu(javax.swing.JButton btnAcao) {
-			this.btnAcao = btnAcao;
+		public btnMenuAction(javax.swing.JButton btnAcao) {
+			this.btnAction = btnAcao;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			this.btnAcao.doClick();
-			
+			this.btnAction.doClick();
 		}
+	}
+	
+	private void defineHotkeys() {
+		ActionMap actionMap = menuItens.getActionMap();
+		
+		actionMap.put("btnNovo", new btnMenuAction(btnNew));
+		actionMap.put("btnAbrir", new btnMenuAction(btnOpen));
+		actionMap.put("btnSalvar", new btnMenuAction(btnSave));
+		actionMap.put("btnCopiar", new btnMenuAction(btnCopy));
+		actionMap.put("btnColar", new btnMenuAction(btnPaste));
+		actionMap.put("btnCortar", new btnMenuAction(btnCut));
+		actionMap.put("btnCompilar", new btnMenuAction(btnCompile));
+		actionMap.put("btnEquipe", new btnMenuAction(btnTeam));
+		menuItens.setActionMap(actionMap);
+		
+		InputMap imap = menuItens.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
+		
+		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK), "btnNovo");
+		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK), "btnAbrir");
+		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK), "btnSalvar");
+		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK), "btnCopiar");
+		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK), "btnColar");
+		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK), "btnCortar");
+		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0), "btnCompilar");
+		imap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), "btnEquipe");
 	}
 }
