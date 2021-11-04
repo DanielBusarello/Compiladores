@@ -2,37 +2,20 @@
 // Daniel Busarello
 // Fernando Butzke
 
-package compiler;
+package sintatico;
 
-import java.awt.Dimension;
-import java.awt.EventQueue;
+import gals.*;
+import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.BadLocationException;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.InputStreamReader;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import java.awt.GridLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import java.io.*;
 
-@SuppressWarnings("serial")
 public class Compilador extends JFrame {
 	private File file = null;
 
@@ -40,7 +23,7 @@ public class Compilador extends JFrame {
 	private JPanel view;
 	private JPanel menuItens;
 	
-	// Vari·veis dos botıes
+	// Vari?veis dos bot?es
 	private JButton btnNew;
 	private JButton btnOpen;
 	private JButton btnSave;
@@ -64,7 +47,7 @@ public class Compilador extends JFrame {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				// Altera o design do Compilador baseado no sistema Windows do usu·rio
+				// Altera o design do Compilador baseado no sistema Windows do usu?rio
 				try {
 		            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 		                if ("Windows".equals(info.getName())) {
@@ -137,12 +120,12 @@ public class Compilador extends JFrame {
         lblStatus.setPreferredSize(new Dimension(900, 25));
         lblStatus.setMinimumSize(new Dimension(900, 25));
         
-        // Painel dos botıes
+        // Painel dos bot?es
  		menuItens = new JPanel();
  		menuItens.setMinimumSize(new Dimension(150, 500));
  		menuItens.setLayout(new GridLayout(0, 1, 0, 0));
      		
- 		// Botıes
+ 		// Bot?es
  		btnNew = new JButton("Novo (Ctrl+N)");
  		btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("./novo.png")));
         btnNew.setBorder(null);
@@ -253,7 +236,12 @@ public class Compilador extends JFrame {
         btnCompile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCompile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                taMessage.setText("FunÁ„o n„o implementada nesta vers„o");
+                // taMessage.setText("Fun??o n?o implementada nesta vers?o");
+                try {
+					actionCompile();
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
             }
         });
 		menuItens.add(btnCompile);
@@ -336,23 +324,78 @@ public class Compilador extends JFrame {
         }
     }
 	
+	private void actionCompile() throws BadLocationException {
+		if (taEditor.getText().trim().length() == 0) {
+			taMessage.setText("Nenhum programa para compilar");
+            return;
+        }
+        
+        Lexico lexico = new Lexico();
+		Sintatico sintatico = new Sintatico();
+		Semantico semantico = new Semantico();
+
+        lexico.setInput(taEditor.getText());
+        try {
+			Token token = null;
+			String message = "";
+			while ((token = lexico.nextToken()) != null) {
+				int line = taEditor.getLineOfOffset(token.getPosition()) + 1;
+				String cls = ClasseId.getClasse(token.getId());
+
+				message += line + "\t";
+				message += cls + "\t";
+				message += token.getLexeme() + "\n";
+			}
+
+			sintatico.parse(lexico, semantico);
+			taMessage.setText("\nPrograma compilado com sucesso");
+
+			/*
+            taMessage.setText("linha\tclasse\t\t\tlexema\n");
+            taMessage.append(message);
+            taMessage.append("\n     programa compilado com sucesso");
+			*/
+        } catch (LexicalError e) {
+            int line = taEditor.getLineOfOffset(e.getPosition()) + 1;
+			String invalidChar = taEditor.getText(e.getPosition(), 1);
+
+			if ("s√≠mbolo inv√°lido".equals(e.getMessage())) {
+				taMessage.setText("Erro na linha " + line + " - " + invalidChar + " " + e.getMessage());
+			} else {
+				taMessage.setText("Erro na linha " + line + " - " + e.getMessage());
+			}
+        } catch (SyntaticError e) {
+			int line = taEditor.getLineOfOffset(e.getPosition()) + 1;
+			String msg = "";
+			if ("$".equals(e.getSymbol())) {
+				msg = "Erro na linha " + line + " - encontrado EOF " + e.getMessage();
+			} else {
+				msg = "Erro na linha " + line + " - encontrado " + e.getSymbol() +  " " + e.getMessage();
+			}
+			taMessage.setText(msg);
+
+		} catch (SemanticError e) {
+
+		}
+	}
+	
 	private String setEditorContent() {
         if (!file.exists()) {
             return "Arquivo n√£o encontrado";
         }
         
         try {
-            BufferedReader leitor = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             
-            String textoEditor = "";
-            String linha = leitor.readLine();
-            while (linha != null) {
-                textoEditor = textoEditor + linha + "\n";
-                linha = leitor.readLine();
+            String editorText = "";
+            String line = reader.readLine();
+            while (line != null) {
+				editorText = editorText + line + "\n";
+				line = reader.readLine();
             }
-            
-            leitor.close();
-            taEditor.setText(textoEditor);
+
+			reader.close();
+            taEditor.setText(editorText);
             
         } catch(IOException e) {
             taMessage.append("\n" + e.getMessage());
@@ -413,11 +456,7 @@ public class Compilador extends JFrame {
 			this.btnAction.doClick();
 		}
 	}
-
-	private void actionCompile() {
-
-	}
-
+	
 	private void defineHotkeys() {
 		ActionMap actionMap = menuItens.getActionMap();
 		
