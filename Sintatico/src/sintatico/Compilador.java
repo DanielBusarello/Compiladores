@@ -15,13 +15,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.net.URL;
 
 public class Compilador extends JFrame {
 	private File file = null;
 
 	// Paineis do Compilador
-	private JPanel view;
-	private JPanel menuItens;
+	JPanel view;
+	JPanel menuItens;
 	
 	// Vari?veis dos bot?es
 	private JButton btnNew;
@@ -38,8 +39,8 @@ public class Compilador extends JFrame {
 	private JTextArea taMessage;
 	
 	// Scrolls do Editor e Mensagens
-	private JScrollPane spEditor;
-	private JScrollPane spMessage;
+	JScrollPane spEditor;
+	JScrollPane spMessage;
 
 	private JLabel lblStatus;
 	
@@ -127,7 +128,8 @@ public class Compilador extends JFrame {
      		
  		// Bot?es
  		btnNew = new JButton("Novo (Ctrl+N)");
- 		btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("./novo.png")));
+		URL newIcon = getClass().getResource("novo.png");
+		btnNew.setIcon(new javax.swing.ImageIcon(newIcon));
         btnNew.setBorder(null);
         btnNew.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -148,7 +150,8 @@ public class Compilador extends JFrame {
 		menuItens.add(btnNew);
  		
 		btnOpen = new JButton("Abrir (Ctrl+O)");
-		btnOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("./abrir.png")));
+		URL openIcon = getClass().getResource("abrir.png");
+		btnOpen.setIcon(new javax.swing.ImageIcon(openIcon));
         btnOpen.setBorder(null);
         btnOpen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnOpen.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -165,7 +168,8 @@ public class Compilador extends JFrame {
 		menuItens.add(btnOpen);
 		
 		btnSave = new JButton("Salvar (Ctrl+S)");
-		btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("./salvar.png")));
+		URL saveIcon = getClass().getResource("salvar.png");
+		btnSave.setIcon(new javax.swing.ImageIcon(saveIcon));
         btnSave.setBorder(null);
         btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSave.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -181,7 +185,8 @@ public class Compilador extends JFrame {
 		menuItens.add(btnSave);
 		
 		btnCopy = new JButton("Copiar (Ctrl+C)");
-		btnCopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("./copiar.png")));
+		URL copyIcon = getClass().getResource("copiar.png");
+		btnCopy.setIcon(new javax.swing.ImageIcon(copyIcon));
         btnCopy.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCopy.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btnCopy.setMaximumSize(new java.awt.Dimension(112, 70));
@@ -196,7 +201,8 @@ public class Compilador extends JFrame {
 		menuItens.add(btnCopy);
 		
 		btnPaste = new JButton("Colar (Ctrl+V)");
-		btnPaste.setIcon(new javax.swing.ImageIcon(getClass().getResource("./colar.png")));
+		URL pasteIcon = getClass().getResource("colar.png");
+		btnPaste.setIcon(new javax.swing.ImageIcon(pasteIcon));
 		btnPaste.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		btnPaste.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btnPaste.setMaximumSize(new java.awt.Dimension(112, 70));
@@ -211,7 +217,8 @@ public class Compilador extends JFrame {
 		menuItens.add(btnPaste);
 		
 		btnCut = new JButton("Cortar (Ctrl+X)");
-		btnCut.setIcon(new javax.swing.ImageIcon(getClass().getResource("./recortar.png")));
+		URL cutIcon = getClass().getResource("recortar.png");
+		btnCut.setIcon(new javax.swing.ImageIcon(cutIcon));
         btnCut.setText("Cortar (Ctrl-x)");
         btnCut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCut.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -227,7 +234,8 @@ public class Compilador extends JFrame {
 		menuItens.add(btnCut);
 		
 		btnCompile = new JButton("Compilar (F9)");
-		btnCompile.setIcon(new javax.swing.ImageIcon(getClass().getResource("./compilar.png")));
+		URL compileIcon = getClass().getResource("compilar.png");
+		btnCompile.setIcon(new javax.swing.ImageIcon(compileIcon));
         btnCompile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCompile.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btnCompile.setMaximumSize(new java.awt.Dimension(110, 70));
@@ -247,7 +255,8 @@ public class Compilador extends JFrame {
 		menuItens.add(btnCompile);
 		
 		btnTeam = new JButton("Equipe (F1)");
-        btnTeam.setIcon(new javax.swing.ImageIcon(getClass().getResource("./equipe.png")));
+		URL teamIcon = getClass().getResource("equipe.png");
+		btnTeam.setIcon(new javax.swing.ImageIcon(teamIcon));
         btnTeam.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnTeam.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btnTeam.setMaximumSize(new java.awt.Dimension(112, 70));
