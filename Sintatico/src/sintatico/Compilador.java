@@ -345,7 +345,7 @@ public class Compilador extends JFrame {
 
         lexico.setInput(taEditor.getText());
         try {
-			Token token = null;
+			/*Token token = null;
 			String message = "";
 			while ((token = lexico.nextToken()) != null) {
 				int line = taEditor.getLineOfOffset(token.getPosition()) + 1;
@@ -354,7 +354,7 @@ public class Compilador extends JFrame {
 				message += line + "\t";
 				message += cls + "\t";
 				message += token.getLexeme() + "\n";
-			}
+			}*/
 
 			sintatico.parse(lexico, semantico);
 			taMessage.setText("\nPrograma compilado com sucesso");
@@ -368,7 +368,7 @@ public class Compilador extends JFrame {
             int line = taEditor.getLineOfOffset(e.getPosition()) + 1;
 			String invalidChar = taEditor.getText(e.getPosition(), 1);
 
-			if ("s√≠mbolo inv√°lido".equals(e.getMessage())) {
+			if ("sÌmbolo inv·lido".equals(e.getMessage())) {
 				taMessage.setText("Erro na linha " + line + " - " + invalidChar + " " + e.getMessage());
 			} else {
 				taMessage.setText("Erro na linha " + line + " - " + e.getMessage());
