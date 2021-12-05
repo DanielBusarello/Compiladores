@@ -18,7 +18,7 @@ import javax.swing.border.AbstractBorder;
 
 @SuppressWarnings("serial")
 public class NumeredBorder extends AbstractBorder {
-	private int lineHeight = 16;
+	private int lineHeight = 18;
 	private int characterHeight = 8;
 	private int characterWidth = 7;
 	private Color myColor;

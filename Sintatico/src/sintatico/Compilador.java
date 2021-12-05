@@ -105,10 +105,10 @@ public class Compilador extends JFrame {
         	public void keyPressed(java.awt.event.KeyEvent evt) {
         	}
         });
-        
+
         spEditor = new JScrollPane(taEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		spEditor.setViewportView(taEditor);
-        
+
 		// Mensagem
         taMessage = new JTextArea();
         taMessage.setEditable(false);
@@ -368,7 +368,7 @@ public class Compilador extends JFrame {
             int line = taEditor.getLineOfOffset(e.getPosition()) + 1;
 			String invalidChar = taEditor.getText(e.getPosition(), 1);
 
-			if ("símbolo inválido".equals(e.getMessage())) {
+			if ("s?mbolo inv?lido".equals(e.getMessage())) {
 				taMessage.setText("Erro na linha " + line + " - " + invalidChar + " " + e.getMessage());
 			} else {
 				taMessage.setText("Erro na linha " + line + " - " + e.getMessage());
