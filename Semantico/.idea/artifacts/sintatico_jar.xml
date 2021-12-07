@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="sintatico:jar">
+    <output-path>$PROJECT_DIR$/out</output-path>
+    <root id="archive" name="sintatico.jar">
+      <element id="module-output" name="sintatico" />
+    </root>
+  </artifact>
+</component>

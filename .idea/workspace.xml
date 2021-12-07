@@ -2,8 +2,91 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b42064b6-fdbf-42fb-a160-60ca0af165e9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Interface/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interface/src/compiler/Compilador.java" beforeDir="false" afterPath="$PROJECT_DIR$/Interface/src/compiler/Compilador.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.classpath" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.idea/artifacts/sintatico_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.project" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/bin/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/out/sintatico.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/AnalysisError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/ClasseId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/LexicalError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/Lexico.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/ParserConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/ScannerConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/SemanticError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/Semantico.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/Sintatico.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/SyntaticError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/gals/Token.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/Compilador.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/NumeredBorder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/abrir.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/colar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/compilar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/copiar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/equipe.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/novo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/recortar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Semantico/src/sintatico/salvar.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/AbstractLayout.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/DimensionInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/GridConstraints.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/GridLayoutManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/HorizontalInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/LayoutState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/Spacer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/SupportCode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/Util.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/com/intellij/uiDesigner/core/VerticalInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/AnalysisError.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/AnalysisError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/ClasseId.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/ClasseId.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/LexicalError.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/LexicalError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/Lexico.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/Lexico.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/ParserConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/ParserConstants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/ScannerConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/ScannerConstants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/SemanticError.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/SemanticError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/Semantico.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/Semantico.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/Sintatico.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/Sintatico.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/SyntaticError.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/SyntaticError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/gals/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/gals/Token.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$btnMenuAction.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador$btnMenuAction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/Compilador.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/NumeredBorder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Sintatico/bin/sintatico/NumeredBorder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$10.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler$btnMenuAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sintatico/bin/sintatico/compiler.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +104,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Lexico" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Semantico/src" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Furb\FURB-04-2021\Compiladores\Compilador-Trabalho Final\Compiladores\Semantico" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -31,7 +120,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635983820381</updated>
+      <workItem from="1638847307847" duration="368000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
