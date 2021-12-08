@@ -337,15 +337,18 @@ public class Semantico implements Constants
     }
 
     private void acao31() {
-
+        pilhaRotulos.push("L" + rotulo);
+        rotulo++;
     }
 
     private void acao32() {
-
+        codigo.add("\tbrtrue L" + rotulo + "\n");
+        rotulo++;
     }
 
     private void acao33() {
-
+        codigo.add("\tbr " + pilhaRotulos.pop() + "\n");
+        codigo.add(pilhaRotulos.pop() + ":\n");
     }
 
     private void acao34(Token token) {
@@ -358,6 +361,4 @@ public class Semantico implements Constants
             codigo.add("\t" + CONVR8 + "\n");
         }
     }
-
-
 }
