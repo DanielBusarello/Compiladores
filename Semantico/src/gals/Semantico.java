@@ -11,6 +11,7 @@ public class Semantico implements Constants
     private ArrayDeque<String> pilhaTipos = new ArrayDeque<>(); //int64 float64 string bool
     private ArrayList<String> listaId = new ArrayList<>();
     private ArrayDeque<String> pilhaRotulos = new ArrayDeque<>();
+    private int rotulo = 1;
 
     public void executeAction(int action, Token token) throws SemanticError
     {
@@ -67,14 +68,38 @@ public class Semantico implements Constants
                 break;
             case 25: acao25(token);
                 break;
+            // case 26: Não implementar
             case 27: acao27();
+                break;
+            case 28: acao28();
+                break;
+            case 29: acao29();
+                break;
+            case 30: acao30();
+                break;
+            case 31: acao31();
+                break;
+            case 32: acao32();
+                break;
+            case 33: acao33();
                 break;
             case 34: acao34(token);
                 break;
             default: throw new SemanticError("Ação semântica não implementada: " + action);
         }
 
-        System.out.println(codigo.toString());
+        if (action == 16) {
+            StringBuilder code = new StringBuilder();
+
+            for (String s : codigo) {
+                code.append(s.startsWith(",") ? s.substring(1) : s);
+            }
+
+            System.out.println(code);
+        }
+
+
+        //System.out.println(codigo.toString());
         //saveFile(codigo.toString());
     }
 
@@ -212,7 +237,7 @@ public class Semantico implements Constants
         codigo.add("" +
                 ".assembly extern mscorlib {}\n" +
                 ".assembly _codigo_objeto{}\n" +
-                ".module   _codigo_objeto.exe\n\n" +
+                ".module _codigo_objeto.exe\n\n" +
                 ".class public _UNICA{\n\n" +
                 ".method static public void _principal() {\n" +
                 "\t.entrypoint\n"
@@ -294,28 +319,33 @@ public class Semantico implements Constants
         listaId.clear();
     }
 
-    private void acao31() {
-        for (String id : listaId) {
-            codigo.add("\t.locals"+ getTypeByPrefix(id) + "\n");
-        }
+    private void acao28() {
+        codigo.add("\tbrfalse L" + rotulo + "\n");
+        pilhaRotulos.push("L" + rotulo);
+        rotulo++;
+    }
 
-        listaId.clear();
+    private void acao29() {
+        codigo.add(pilhaRotulos.pop() + ":\n");
+    }
+
+    private void acao30() {
+        codigo.add("\tbr L" + rotulo + "\n");
+        codigo.add(pilhaRotulos.pop() + ":\n");
+        pilhaRotulos.push("L" + rotulo);
+        rotulo++;
+    }
+
+    private void acao31() {
+
     }
 
     private void acao32() {
-        for (String id : listaId) {
-            codigo.add("\t.locals"+ getTypeByPrefix(id) + "\n");
-        }
 
-        listaId.clear();
     }
 
     private void acao33() {
-        for (String id : listaId) {
-            codigo.add("\t.locals"+ getTypeByPrefix(id) + "\n");
-        }
 
-        listaId.clear();
     }
 
     private void acao34(Token token) {
