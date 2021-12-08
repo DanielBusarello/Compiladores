@@ -31,9 +31,17 @@ public class Semantico implements Constants
                 break;
             case 7: acao7();
                 break;
+            case 8: acao8();
+                break;
+            case 9: acao9(token);
+                break;
+            case 10: acao10();
+                break;
             case 11: acao11();
                 break;
             case 12: acao12();
+                break;
+            case 13: acao13();
                 break;
             case 14: acao14();
                 break;
@@ -42,6 +50,16 @@ public class Semantico implements Constants
             case 16: acao16();
                 break;
             case 17: acao17(token);
+                break;
+            case 18: acao18(token);
+                break;
+            case 19: acao19(token);
+                break;
+            case 20: acao20(token);
+                break;
+            case 21: acao21();
+                break;
+            case 22: acao22();
                 break;
             case 24: acao24(token);
                 break;
@@ -52,7 +70,7 @@ public class Semantico implements Constants
         //saveFile(codigo.toString());
     }
 
-    private void acao1() throws SemanticError {
+    private boolean verifyNumTypes() throws SemanticError {
         String tipo1 = pilhaTipos.pop();
         String tipo2 = pilhaTipos.pop();
 
@@ -64,24 +82,41 @@ public class Semantico implements Constants
             } else
                 pilhaTipos.push(INTEGER);
 
-            codigo.add(ADD);
-        } else {
+            return true;
+
+        }  else {
             throw new SemanticError("tipo(s) incompatível(is) em expressão aritmética");
         }
     }
 
-    private void acao2() {
-        pilhaTipos.pop();
-        pilhaTipos.pop();
-        pilhaTipos.push(FLOAT);
+    private boolean verifyLogicTypes() throws SemanticError {
+        String tipo1 = pilhaTipos.pop();
+        String tipo2 = pilhaTipos.pop();
+
+        if (tipo1.equals(BOOL) && tipo2.equals(BOOL)) {
+            pilhaTipos.push(BOOL);
+            return true;
+        } else throw new SemanticError("tipo(s) incompatível(is) em expressão lógica");
     }
 
-    private void acao3() {
-        pilhaTipos.push(INTEGER);
+    private void acao1() throws SemanticError {
+        if (verifyNumTypes())
+            codigo.add(ADD + "\n");
     }
 
-    private void acao4() {
-        pilhaTipos.push(FLOAT);
+    private void acao2() throws SemanticError {
+        if (verifyNumTypes())
+            codigo.add(SUB + "\n");
+    }
+
+    private void acao3() throws SemanticError {
+        if (verifyNumTypes())
+            codigo.add(MUL + "\n");
+    }
+
+    private void acao4() throws SemanticError {
+        if (verifyNumTypes())
+            codigo.add(DIV + "\n");
     }
 
     private void acao5(Token token) {
@@ -103,6 +138,40 @@ public class Semantico implements Constants
             throw new SemanticError("tipo(s) incompatível(is) em expressão aritmética");
     }
 
+    private void acao8() throws SemanticError {
+        String tipo = pilhaTipos.pop();
+        if (isFloat(tipo) || isInteger(tipo)) {
+            pilhaTipos.push(tipo);
+
+            codigo.add(LDCI8 + " -1\n");
+            codigo.add(CONVR8 + "\n");
+            codigo.add(MUL + "\n");
+        } else
+            throw new SemanticError("tipo(s) incompatível(is) em expressão aritmética");
+    }
+
+    private void acao9(Token token) {
+        operador = token.getLexeme();
+    }
+
+    private void acao10() throws SemanticError {
+        String tipo1 = pilhaTipos.pop();
+        String tipo2 = pilhaTipos.pop();
+
+        if (tipo1.equals(tipo2)) {
+            pilhaTipos.push(BOOL);
+        } else throw new SemanticError("tipo(s) incompatível(is) em expressão relacional");
+
+        switch(operador) {
+            case ">": codigo.add("cgt\n");
+            case "<": codigo.add("clt\n");
+            case "==": codigo.add("ceq\n");
+            case "<>": codigo.add("ceq\n" +
+                                    "ldc.i4.0\n" +
+                                    "ceq\n");
+        }
+    }
+
     private void acao11() {
         pilhaTipos.push(BOOL);
         codigo.add("ldc.i4.1\n");
@@ -111,6 +180,16 @@ public class Semantico implements Constants
     private void acao12() {
         pilhaTipos.push(BOOL);
         codigo.add("ldc.i4.0\n");
+    }
+
+    private void acao13() throws SemanticError {
+        String tipo = pilhaTipos.pop();
+        if (tipo.equals(BOOL)) {
+            pilhaTipos.push(BOOL);
+
+            codigo.add("ldc.i4.1\n");
+            codigo.add("xor\n");
+        } else throw new SemanticError("tipo(s) incompatível(is) em expressão lógica");
     }
 
     private void acao14() {
@@ -142,6 +221,31 @@ public class Semantico implements Constants
     private void acao17(Token token) {
         pilhaTipos.push(STRING);
         codigo.add("\t"+ LDSTR + " " + token.getLexeme() + "\n");
+    }
+
+    private void acao18(Token token) {
+        pilhaTipos.push("\n");
+        codigo.add("\t\\n" + " " + token.getLexeme() + "\n");
+    }
+
+    private void acao19(Token token) {
+        pilhaTipos.push(" ");
+        codigo.add("\t " + token.getLexeme() + "\n");
+    }
+
+    private void acao20(Token token) {
+        pilhaTipos.push("\\t");
+        codigo.add("\t\\t" + token.getLexeme() + "\n");
+    }
+
+    private void acao21() throws SemanticError {
+        if (verifyLogicTypes())
+            codigo.add(AND + "\n");
+    }
+
+    private void acao22() throws SemanticError {
+        if (verifyLogicTypes())
+            codigo.add(OR + "\n");
     }
 
     public void acao24(Token token) {
