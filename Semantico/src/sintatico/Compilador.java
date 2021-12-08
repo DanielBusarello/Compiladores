@@ -368,7 +368,7 @@ public class Compilador extends JFrame {
             int line = taEditor.getLineOfOffset(e.getPosition()) + 1;
 			String invalidChar = taEditor.getText(e.getPosition(), 1);
 
-			if ("s?mbolo inv?lido".equals(e.getMessage())) {
+			if ("símbolo inválido".equals(e.getMessage())) {
 				taMessage.setText("Erro na linha " + line + " - " + invalidChar + " " + e.getMessage());
 			} else {
 				taMessage.setText("Erro na linha " + line + " - " + e.getMessage());
@@ -384,7 +384,7 @@ public class Compilador extends JFrame {
 			taMessage.setText(msg);
 
 		} catch (SemanticError e) {
-
+			System.out.print(e.getMessage());
 		}
 	}
 	

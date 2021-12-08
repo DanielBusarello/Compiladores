@@ -1,5 +1,3 @@
-package compiler.GALS;
-
 public interface ScannerConstants
 {
     int[] SCANNER_TABLE_INDEXES = 
@@ -2091,7 +2089,7 @@ public interface ScannerConstants
 
     String[] SCANNER_ERROR =
     {
-        "Caractere nï¿½o esperado",
+        "Caractere não esperado",
         "",
         "",
         "Erro identificando stringH",
