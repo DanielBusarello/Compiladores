@@ -31,11 +31,26 @@ public class utils {
     public static final String OR = "OR";
 
     public static boolean isInteger(String str) {
+        if (str.matches(INTEGER))
+            return true;
         return str.matches("[0-9]*");
     }
 
     public static boolean isFloat(String str) {
+        if (str.matches(FLOAT))
+            return true;
         return str.matches("[+-]?([0-9]*[.])?[0-9]+");
+    }
+
+    public static String getTypeByPrefix(String id) {
+        if (id.startsWith("I")) {
+            return INTEGER;
+        } else if (id.startsWith("F")) {
+            return FLOAT;
+        } else if (id.startsWith("S")) {
+            return STRING;
+        } else
+            return BOOL;
     }
 
     public static void saveFile(String text) {

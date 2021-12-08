@@ -61,7 +61,15 @@ public class Semantico implements Constants
                 break;
             case 22: acao22();
                 break;
+            case 23: acao23();
+                break;
             case 24: acao24(token);
+                break;
+            case 25: acao25(token);
+                break;
+            case 27: acao27();
+                break;
+            case 34: acao34(token);
                 break;
             default: throw new SemanticError("Ação semântica não implementada: " + action);
         }
@@ -195,7 +203,7 @@ public class Semantico implements Constants
     private void acao14() {
         String tipo = pilhaTipos.pop();
         if (isInteger(tipo)) {
-            codigo.add("\t" + CONVI8);
+            codigo.add("\t" + CONVI8 + "\n");
         }
         codigo.add("\tcall void [mscorlib]System.Console::Write(" + tipo + ")\n");
     }
@@ -248,7 +256,77 @@ public class Semantico implements Constants
             codigo.add(OR + "\n");
     }
 
-    public void acao24(Token token) {
+    private void acao23() {
+        for (String id : listaId) {
+            codigo.add(".locals ("+ getTypeByPrefix(id) + " " + id + ")\n");
+        }
+
+        listaId.clear();
+    }
+
+    private void acao24(Token token) {
         listaId.add(token.getLexeme());
    }
+
+    private void acao25(Token token) {
+        String lexeme = token.getLexeme();
+
+        listaId.remove(lexeme);
+
+        if (getTypeByPrefix(lexeme).equals(INTEGER))
+            codigo.add(CONVR8 + "\n");
+
+        codigo.add("stloc " + lexeme + "\n");
+    }
+
+    private void acao27() {
+        for (String id : listaId) {
+            codigo.add("call string [mscorlib]System.Console::ReadLine()\n");
+
+            if (getTypeByPrefix(id).equals(INTEGER)) {
+
+            }
+
+            codigo.add("stloc " + id + "\n");
+        }
+
+        listaId.clear();
+    }
+
+    private void acao31() {
+        for (String id : listaId) {
+            codigo.add(".locals"+ getTypeByPrefix(id) + "\n");
+        }
+
+        listaId.clear();
+    }
+
+    private void acao32() {
+        for (String id : listaId) {
+            codigo.add(".locals"+ getTypeByPrefix(id) + "\n");
+        }
+
+        listaId.clear();
+    }
+
+    private void acao33() {
+        for (String id : listaId) {
+            codigo.add(".locals"+ getTypeByPrefix(id) + "\n");
+        }
+
+        listaId.clear();
+    }
+
+    private void acao34(Token token) {
+        String lexeme = token.getLexeme();
+
+        codigo.add("ldloc " + lexeme + "\n");
+        pilhaTipos.add(getTypeByPrefix(lexeme));
+
+        if (getTypeByPrefix(lexeme).equals(INTEGER)) {
+            codigo.add(CONVR8 + "\n");
+        }
+    }
+
+
 }
