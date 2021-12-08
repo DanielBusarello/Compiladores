@@ -109,22 +109,22 @@ public class Semantico implements Constants
 
     private void acao1() throws SemanticError {
         if (verifyNumTypes())
-            codigo.add(ADD + "\n");
+            codigo.add("\t" + ADD + "\n");
     }
 
     private void acao2() throws SemanticError {
         if (verifyNumTypes())
-            codigo.add(SUB + "\n");
+            codigo.add("\t" + SUB + "\n");
     }
 
     private void acao3() throws SemanticError {
         if (verifyNumTypes())
-            codigo.add(MUL + "\n");
+            codigo.add("\t" + MUL + "\n");
     }
 
     private void acao4() throws SemanticError {
         if (verifyNumTypes())
-            codigo.add(DIV + "\n");
+            codigo.add("\t" + DIV + "\n");
     }
 
     private void acao5(Token token) {
@@ -151,9 +151,9 @@ public class Semantico implements Constants
         if (isFloat(tipo) || isInteger(tipo)) {
             pilhaTipos.push(tipo);
 
-            codigo.add(LDCI8 + " -1\n");
-            codigo.add(CONVR8 + "\n");
-            codigo.add(MUL + "\n");
+            codigo.add("\t" + LDCI8 + " -1\n");
+            codigo.add("\t" + CONVR8 + "\n");
+            codigo.add("\t" + MUL + "\n");
         } else
             throw new SemanticError("tipo(s) incompatível(is) em expressão aritmética");
     }
@@ -171,23 +171,23 @@ public class Semantico implements Constants
         } else throw new SemanticError("tipo(s) incompatível(is) em expressão relacional");
 
         switch(operador) {
-            case ">": codigo.add("cgt\n");
-            case "<": codigo.add("clt\n");
-            case "==": codigo.add("ceq\n");
-            case "<>": codigo.add("ceq\n" +
-                                    "ldc.i4.0\n" +
-                                    "ceq\n");
+            case ">": codigo.add("\tcgt\n");
+            case "<": codigo.add("\tclt\n");
+            case "==": codigo.add("\tceq\n");
+            case "<>": codigo.add("\tceq\n" +
+                                    "\tldc.i4.0\n" +
+                                    "\tceq\n");
         }
     }
 
     private void acao11() {
         pilhaTipos.push(BOOL);
-        codigo.add("ldc.i4.1\n");
+        codigo.add("\tldc.i4.1\n");
     }
 
     private void acao12() {
         pilhaTipos.push(BOOL);
-        codigo.add("ldc.i4.0\n");
+        codigo.add("\tldc.i4.0\n");
     }
 
     private void acao13() throws SemanticError {
@@ -195,8 +195,8 @@ public class Semantico implements Constants
         if (tipo.equals(BOOL)) {
             pilhaTipos.push(BOOL);
 
-            codigo.add("ldc.i4.1\n");
-            codigo.add("xor\n");
+            codigo.add("\tldc.i4.1\n");
+            codigo.add("\txor\n");
         } else throw new SemanticError("tipo(s) incompatível(is) em expressão lógica");
     }
 
@@ -228,37 +228,37 @@ public class Semantico implements Constants
 
     private void acao17(Token token) {
         pilhaTipos.push(STRING);
-        codigo.add("\t"+ LDSTR + " " + token.getLexeme() + "\n");
+        codigo.add("\t" + LDSTR + " " + token.getLexeme() + "\n");
     }
 
     private void acao18(Token token) {
-        pilhaTipos.push("\n");
-        codigo.add("\t\\n" + " " + token.getLexeme() + "\n");
+        pilhaTipos.push(STRING); // newLine
+        codigo.add("\t" + LDSTR + " \"\\n\"" + "\n");
     }
 
     private void acao19(Token token) {
-        pilhaTipos.push(" ");
-        codigo.add("\t " + token.getLexeme() + "\n");
+        pilhaTipos.push(STRING);  // space
+        codigo.add("\t" + LDSTR + " \" \"" + "\n");
     }
 
     private void acao20(Token token) {
-        pilhaTipos.push("\\t");
-        codigo.add("\t\\t" + token.getLexeme() + "\n");
+        pilhaTipos.push(STRING); // tab
+        codigo.add("\t" + LDSTR + " \"\\t\"" + "\n");
     }
 
     private void acao21() throws SemanticError {
         if (verifyLogicTypes())
-            codigo.add(AND + "\n");
+            codigo.add("\t" + AND + "\n");
     }
 
     private void acao22() throws SemanticError {
         if (verifyLogicTypes())
-            codigo.add(OR + "\n");
+            codigo.add("\t" + OR + "\n");
     }
 
     private void acao23() {
         for (String id : listaId) {
-            codigo.add(".locals ("+ getTypeByPrefix(id) + " " + id + ")\n");
+            codigo.add("\t.locals ("+ getTypeByPrefix(id) + " " + id + ")\n");
         }
 
         listaId.clear();
@@ -269,25 +269,26 @@ public class Semantico implements Constants
    }
 
     private void acao25(Token token) {
-        String lexeme = token.getLexeme();
+        //String lexeme = token.getLexeme();
+        String lexeme = listaId.get(0);
 
         listaId.remove(lexeme);
 
         if (getTypeByPrefix(lexeme).equals(INTEGER))
-            codigo.add(CONVR8 + "\n");
+            codigo.add("\t" + CONVR8 + "\n");
 
-        codigo.add("stloc " + lexeme + "\n");
+        codigo.add("\tstloc " + lexeme + "\n");
     }
 
     private void acao27() {
         for (String id : listaId) {
-            codigo.add("call string [mscorlib]System.Console::ReadLine()\n");
+            codigo.add("\tcall string [mscorlib]System.Console::ReadLine()\n");
 
             if (getTypeByPrefix(id).equals(INTEGER)) {
-
+                codigo.add("\tcall int64 [mscorlib]System.Int64::Parse(string)\n");
             }
 
-            codigo.add("stloc " + id + "\n");
+            codigo.add("\tstloc " + id + "\n");
         }
 
         listaId.clear();
@@ -295,7 +296,7 @@ public class Semantico implements Constants
 
     private void acao31() {
         for (String id : listaId) {
-            codigo.add(".locals"+ getTypeByPrefix(id) + "\n");
+            codigo.add("\t.locals"+ getTypeByPrefix(id) + "\n");
         }
 
         listaId.clear();
@@ -303,7 +304,7 @@ public class Semantico implements Constants
 
     private void acao32() {
         for (String id : listaId) {
-            codigo.add(".locals"+ getTypeByPrefix(id) + "\n");
+            codigo.add("\t.locals"+ getTypeByPrefix(id) + "\n");
         }
 
         listaId.clear();
@@ -311,7 +312,7 @@ public class Semantico implements Constants
 
     private void acao33() {
         for (String id : listaId) {
-            codigo.add(".locals"+ getTypeByPrefix(id) + "\n");
+            codigo.add("\t.locals"+ getTypeByPrefix(id) + "\n");
         }
 
         listaId.clear();
@@ -320,11 +321,11 @@ public class Semantico implements Constants
     private void acao34(Token token) {
         String lexeme = token.getLexeme();
 
-        codigo.add("ldloc " + lexeme + "\n");
+        codigo.add("\tldloc " + lexeme + "\n");
         pilhaTipos.add(getTypeByPrefix(lexeme));
 
         if (getTypeByPrefix(lexeme).equals(INTEGER)) {
-            codigo.add(CONVR8 + "\n");
+            codigo.add("\t" + CONVR8 + "\n");
         }
     }
 
