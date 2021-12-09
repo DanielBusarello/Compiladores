@@ -1,4 +1,4 @@
-package sintatico;
+package semantico;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

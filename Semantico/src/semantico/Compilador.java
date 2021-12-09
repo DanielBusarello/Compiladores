@@ -2,7 +2,7 @@
 // Daniel Busarello
 // Fernando Butzke
 
-package sintatico;
+package semantico;
 
 import gals.*;
 import javax.swing.*;
