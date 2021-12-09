@@ -96,7 +96,7 @@ public class Semantico implements Constants
             }
 
             System.out.println(code);
-            //saveFile(code.toString());
+            saveFile(code.toString());
         }
     }
 
@@ -297,7 +297,7 @@ public class Semantico implements Constants
         listaId.remove(lexeme);
 
         if (getTypeByPrefix(lexeme).equals(INTEGER))
-            codigo.add("\t" + CONVR8 + "\n");
+            codigo.add("\t" + CONVI8 + "\n");
 
         codigo.add("\tstloc " + lexeme + "\n");
     }
