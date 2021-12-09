@@ -5,6 +5,7 @@ package util;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -53,34 +54,16 @@ public class utils {
             return BOOL;
     }
 
-    public static void saveFile(String text) {
-        JFileChooser fileChooser = new JFileChooser();
-
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Arquivo .il", "il"));
-
-        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            file = fileChooser.getSelectedFile();
-
-            if(!file.getAbsolutePath().contains(".il")) {
-                file = new File(file.getPath() + ".il");
-            }
-
-            saveContentFile(text);
-        }
-    }
-
-    private static void saveContentFile(String text) {
+    public static void saveFile(String content) {
         try {
-            PrintWriter pw = new PrintWriter(file);
+            String curDir = System.getProperty("user.dir") + "/generatedCode.il";
 
-            pw.write(text);
-            pw.flush();
-
-            pw.close();
-
+            FileWriter archive = new FileWriter(curDir);
+            PrintWriter writeArc = new PrintWriter(archive);
+            writeArc.println(content);
+            writeArc.close();
         } catch (IOException e) {
-            System.out.println("Erro ao salvar o arquivo. " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

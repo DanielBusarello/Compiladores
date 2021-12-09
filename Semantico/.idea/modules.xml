@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/sintatico.iml" filepath="$PROJECT_DIR$/sintatico.iml" />
+      <module fileurl="file://$PROJECT_DIR$/semantico.iml" filepath="$PROJECT_DIR$/semantico.iml" />
     </modules>
   </component>
 </project>
