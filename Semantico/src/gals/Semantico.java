@@ -98,10 +98,6 @@ public class Semantico implements Constants
             System.out.println(code);
             //saveFile(code.toString());
         }
-
-
-        //System.out.println(codigo.toString());
-        //saveFile(codigo.toString());
     }
 
     private boolean verifyNumTypes() throws SemanticError {
@@ -343,8 +339,10 @@ public class Semantico implements Constants
     }
 
     private void acao32(Token token) {
-
-        codigo.add("\tbrtrue L" + rotulo + "\n");
+        if (token.getLexeme().equals("isFalseDo"))
+            codigo.add("\tbrtrue L" + rotulo + "\n");
+        else
+            codigo.add("\tbrfalse L" + rotulo + "\n");
         rotulo++;
     }
 
