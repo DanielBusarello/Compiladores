@@ -57,13 +57,13 @@ public class utils {
         JFileChooser fileChooser = new JFileChooser();
 
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Arquivo .txt", "txt"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Arquivo .il", "il"));
 
         if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
 
-            if(!file.getAbsolutePath().contains(".txt")) {
-                file = new File(file.getPath() + ".txt");
+            if(!file.getAbsolutePath().contains(".il")) {
+                file = new File(file.getPath() + ".il");
             }
 
             saveContentFile(text);

@@ -384,7 +384,8 @@ public class Compilador extends JFrame {
 			taMessage.setText(msg);
 
 		} catch (SemanticError e) {
-			System.out.print(e.getMessage());
+			int line = taEditor.getLineOfOffset(e.getPosition());
+			taMessage.setText("Erro na linha " + line + " - " + e.getMessage());
 		}
 	}
 	

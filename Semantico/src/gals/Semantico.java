@@ -79,7 +79,7 @@ public class Semantico implements Constants
                 break;
             case 31: acao31();
                 break;
-            case 32: acao32();
+            case 32: acao32(token);
                 break;
             case 33: acao33();
                 break;
@@ -96,6 +96,7 @@ public class Semantico implements Constants
             }
 
             System.out.println(code);
+            //saveFile(code.toString());
         }
 
 
@@ -341,7 +342,8 @@ public class Semantico implements Constants
         rotulo++;
     }
 
-    private void acao32() {
+    private void acao32(Token token) {
+
         codigo.add("\tbrtrue L" + rotulo + "\n");
         rotulo++;
     }
